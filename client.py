@@ -4,22 +4,18 @@ from eth_account import Account
 from web3.middleware import construct_sign_and_send_raw_middleware
 import time
 
-# Etherscan API Key
 etherscan_api_key = 'I2WT2TUKQG45RPD28WNXDHY1RZA7KUEGYD'
 etherscan_base_url = 'https://api-sepolia.etherscan.io/api'
 sepolia_chain_id = 11155111
 
-# Hardcoded account address and private key
 account_address = '0x34dab0B81832C4acF3CaEE5ABaE15878Da279f93'
 private_key = '709d6b5985bb15fb7af796ce969bd7f55e18a1554c6b78d6fa1e4915bff83951'
 
-# Hardcoded contract addresses
 car_token_address = '0x256C0B67767E989bC5B1B77960B7C71dfE1Fec9b'
 dividend_token_address = '0xeF05E0E8eA7404992878A3c612a565795ef9443A'
 escrow_address = '0x07d93BcA85B253e13bc1330996CCD816eE043897'
 rental_service_address = '0x0440361fBb9168e8aFB59F473e63827C99850573'
 
-# CarToken ABI
 car_token_abi = [
 	{
 		"inputs": [],
@@ -638,7 +634,7 @@ car_token_abi = [
 		"type": "function"
 	}
 ]
-# RentalService ABI
+
 rental_service_abi = [
     {
         "inputs": [
@@ -869,7 +865,6 @@ rental_service_abi = [
     }
 ]
 
-# Escrow ABI
 escrow_abi = [
     {
         "inputs": [],
@@ -1032,7 +1027,6 @@ escrow_abi = [
     }
 ]
 
-# DividendToken ABI
 dividend_token_abi = [
     {
         "inputs": [],
@@ -1423,7 +1417,6 @@ class EthereumCLI(cmd.Cmd):
         self.web3 = Web3(Web3.HTTPProvider('https://rpc.sepolia.org'))
         self.web3.middleware_onion.add(construct_sign_and_send_raw_middleware(self.web3.eth.account.from_key(private_key)))
 
-        # Hardcoded contract instances
         self.car_token_contract = self.web3.eth.contract(address=car_token_address, abi=car_token_abi)
         self.dividend_token_contract = self.web3.eth.contract(address=dividend_token_address, abi=dividend_token_abi)
         self.escrow_contract = self.web3.eth.contract(address=escrow_address, abi=escrow_abi)
@@ -1432,7 +1425,7 @@ class EthereumCLI(cmd.Cmd):
         if self.web3.is_connected():
             print("Connected to Sepolia network.")
         else:
-            print("Failed to connect to Sepolia network.")
+            print("Failed connection to Sepolia network.")
 
         admin_address = self.escrow_contract.functions.admin().call()
         print(f"Admin address from contract: {admin_address}")
